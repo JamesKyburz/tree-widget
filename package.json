@@ -1,0 +1,35 @@
+{
+  "name": "tree-widget",
+  "description": "tree widget using react",
+  "keywords": "tree widget react",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jameskyburz/tree-widget.git"
+  },
+  "author": {
+    "name": "James Kyburz",
+    "email": "james.kyburz@gmail.com"
+  },
+  "main": "index.js",
+  "version": "1.0.0",
+  "scripts": {
+    "prepublish": "standard",
+    "preversion": "standard"
+  },
+  "browserify": {
+    "transform": [
+      "brfs",
+      "hyperxify"
+    ]
+  },
+  "dependencies": {
+    "brfs": "1.4.3",
+    "hyperx": "2.0.3",
+    "hyperxify": "2.0.1",
+    "insert-css": "0.2.0"
+  },
+  "devDependencies": {
+    "standard": "7.0.1"
+  },
+  "license": "MIT"
+}

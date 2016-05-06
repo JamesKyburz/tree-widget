@@ -1,0 +1,73 @@
+.tree-view {
+  font-size: 14px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tree-view ul {
+  margin: 0;
+  padding: 0;
+  padding-left: 13px;
+}
+
+.tree-view > ul {
+  padding-left: 0;
+}
+
+.tree-view li {
+  list-style-type: none;
+  line-height: 25px;
+}
+
+.tree-view .list-item {
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tree-view .name {
+  padding-left: 15px;
+  line-height: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.tree-view .entry.selected:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 25px;
+  background-color: #f5f5f5;
+  z-index: -1;
+}
+
+.tree-view .directory > .list-item:before {
+  content: '⊞';
+  cursor: pointer;
+  padding: 0 5px 0 0;
+}
+
+.tree-view .directory.open > .list-item:before {
+  content: '⊟';
+  cursor: pointer;
+  padding: 0 5px 0 0;
+}
+
+.tree-view .directory > ul {
+  display: none;
+}
+
+.tree-view .directory.open > ul {
+  display: block;
+}
+
+.tree-view .file > .list-item:before {
+  content: '❐';
+  padding: 0 5px 0 0;
+}
+
+.tree-view .directory, .tree-view.file {
+  cursor: pointer;
+}
