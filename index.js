@@ -49,7 +49,7 @@ function Tree (react) {
     toggle: function (root) {
       return function (e) {
         var el = e.target
-        var className = root.entries.length && /A|SPAN|DIV/.test(el.nodeName) ? 'selected' : 'open'
+        var className = !root.entries.length || /A|SPAN/.test(el.nodeName) ? 'selected' : 'open'
         while (el.nodeName !== 'LI') el = el.parentNode
         var toggle = el.classList.contains(className)
         if (className === 'selected') {
