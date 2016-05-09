@@ -69,9 +69,20 @@ function Tree (react) {
           }
         }
         el.classList[toggle ? 'remove' : 'add'](className)
-        if (this.props.onSelect) this.props.onSelect(this.selected)
+        if (this.props.onSelect) this.props.onSelect(items({ entries: this.selected }))
         e.stopPropagation()
       }.bind(this)
     }
   })
+}
+
+function items (item) {
+  if (item.type === 'file') return item
+  return item.entries
+    .map(items)
+    .reduce(
+      function (sum, x) {
+        return (Array.isArray(x) ? x : [x]).concat(sum)
+      }, []
+    )
 }
