@@ -10,13 +10,15 @@ function create (react) { return new Tree(react) }
 function Tree (react) {
   var hx = hyperx(react.createElement)
   return react.createClass({
-    componentDidMount: function () {
-      if (this.props.style !== false) {
-        css(fs.readFileSync(path.join(__dirname, 'style.css'), 'utf-8'))
+    getInitialState: function () {
+      return {
+        selected: [],
+        open: []
       }
+    },
+    componentDidMount: function () {
+      if (this.props.style !== false) css(fs.readFileSync(path.join(__dirname, 'style.css'), 'utf-8'))
       var self = this
-      this.selected = []
-      this.selectedEl = []
       this.keyDown = function (e) { self.shift = e.shiftKey }
       this.keyUp = function (e) { self.shift = false }
       window.addEventListener('keydown', this.keyDown)
@@ -26,7 +28,6 @@ function Tree (react) {
       window.removeEventListener('keydown', this.keyDown)
       window.removeEventListener('keyup', this.keyUp)
     },
-    componentWillUpdate: function () { return false },
     render: function () {
       return hx`
         <div class='tree-view'>
@@ -35,9 +36,13 @@ function Tree (react) {
       `
     },
     renderDirectory: function renderDirectory (root) {
+      var className = 'entry'
+      className += root.entries.length ? ' directory' : ' file'
+      className += this.state.selected.indexOf(root) === -1 ? '' : ' selected'
+      className += this.state.open.indexOf(root) === -1 ? '' : ' open'
       return hx`
         <ul>
-          <li key=${root.path} class=${root.entries.length ? 'entry directory' : 'entry file'} onClick=${this.toggle(root)}>
+          <li key=${root.path} class=${className} onClick=${this.toggle(root)}>
             <div class='list-item'>
               <span><a>${root.path}</a></span>
             </div>
@@ -49,27 +54,23 @@ function Tree (react) {
     toggle: function (root) {
       return function (e) {
         var el = e.target
-        var className = !root.entries.length || /A|SPAN/.test(el.nodeName) ? 'selected' : 'open'
+        var type = !root.entries.length || /A|SPAN/.test(el.nodeName) ? 'selected' : 'open'
         while (el.nodeName !== 'LI') el = el.parentNode
-        var toggle = el.classList.contains(className)
-        if (className === 'selected') {
-          if (this.shift) {
-            if (!toggle) {
-              this.selectedEl.push(el)
-              this.selected.push(root)
-            } else {
-              var index = this.selected.indexOf(root)
-              this.selectedEl.splice(index, 1)
-              this.selected.splice(index, 1)
-            }
+        var state = this.state[type]
+        var pos = state.indexOf(root)
+        if (type === 'selected' && !this.shift) {
+          state = pos === -1 ? [root] : []
+        } else {
+          if (pos === -1) {
+            state.push(root)
           } else {
-            this.selectedEl.forEach(function (el) { el.classList.remove('selected') })
-            this.selectedEl = toggle ? [] : [el]
-            this.selected = toggle ? [] : [root]
+            state.splice(pos, 1)
           }
         }
-        el.classList[toggle ? 'remove' : 'add'](className)
-        if (this.props.onSelect) this.props.onSelect(items({ entries: this.selected }))
+        var newState = {}
+        newState[type] = state
+        if (newState.selected && this.props.onSelect) this.props.onSelect(items({ entries: newState.selected }))
+        this.setState(newState)
         e.stopPropagation()
       }.bind(this)
     }
