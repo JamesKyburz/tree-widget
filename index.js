@@ -39,7 +39,7 @@ function Tree (react) {
       var className = 'entry'
       className += root.entries.length ? ' directory' : ' file'
       className += this.state.selected.indexOf(root) === -1 ? '' : ' selected'
-      className += this.state.open.indexOf(root) === -1 ? '' : ' open'
+      className += this.state.open.indexOf(root) === -1 ? (root.open ? ' open' : '') : ' open'
       return hx`
         <ul>
           <li key=${root.path} class=${className} onClick=${this.toggle(root)}>
