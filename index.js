@@ -71,6 +71,7 @@ function Tree (react) {
         var newState = {}
         newState[type] = state
         if (newState.selected && this.props.onSelect) this.props.onSelect(items({ entries: newState.selected }))
+        if (newState.open && this.props.onOpen && newState.open.indexOf(root) !== -1) this.props.onOpen(root)
         this.setState(newState)
         e.stopPropagation()
       }.bind(this)
