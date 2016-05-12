@@ -12,8 +12,8 @@ function Tree (react) {
   return react.createClass({
     getInitialState: function () {
       return {
-        selected: [],
-        open: []
+        selected: this.props.selected || [],
+        open: this.props.open || []
       }
     },
     componentDidMount: function () {
