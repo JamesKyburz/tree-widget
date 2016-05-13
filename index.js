@@ -13,7 +13,8 @@ function Tree (react) {
     getInitialState: function () {
       return {
         selected: this.props.selected || [],
-        open: this.props.open || []
+        open: this.props.open || [],
+        toggled: []
       }
     },
     componentDidMount: function () {
@@ -36,10 +37,13 @@ function Tree (react) {
       `
     },
     renderDirectory: function renderDirectory (root) {
+      var toggled = this.state.toggled.indexOf(root) !== -1
+      var open = (root.open && !toggled) || this.state.open.indexOf(root) !== -1
       var className = 'entry'
       className += root.entries.length ? ' directory' : ' file'
       className += this.state.selected.indexOf(root) === -1 ? '' : ' selected'
-      className += this.state.open.indexOf(root) === -1 ? (root.open ? ' open' : '') : ' open'
+      className += open ? ' open' : ''
+
       return hx`
         <ul>
           <li key=${root.path} class=${className} onClick=${this.toggle(root)}>
@@ -47,7 +51,7 @@ function Tree (react) {
               <span><a>${root.path}</a></span>
               ${root.html ? hx`<span dangerouslySetInnerHTML=${({__html: root.html})} />` : ''}
             </div>
-            ${root.entries.map(this.renderDirectory)}
+            ${open || toggled ? root.entries.map(this.renderDirectory) : ''}
           </li>
         </ul>
       `
@@ -59,6 +63,10 @@ function Tree (react) {
         while (el.nodeName !== 'LI') el = el.parentNode
         var state = this.state[type]
         var pos = state.indexOf(root)
+        if (type === 'open' && root.open && pos === -1 && this.state.toggled.indexOf(root) === -1) {
+          state.push(root)
+          pos = state.length - 1
+        }
         if (type === 'selected' && !this.shift) {
           state = pos === -1 ? [root] : []
         } else {
@@ -70,6 +78,7 @@ function Tree (react) {
         }
         var newState = {}
         newState[type] = state
+        newState.toggled = this.state.toggled.concat([root])
         if (newState.selected && this.props.onSelect) this.props.onSelect(items({ entries: newState.selected }))
         if (newState.open && this.props.onOpen && newState.open.indexOf(root) !== -1) this.props.onOpen(root)
         this.setState(newState)
