@@ -16,6 +16,7 @@ function Tree (react) {
         selected: this.props.selected || [],
         open: this.props.open || [],
         openAll: false,
+        root: this.props.root || {},
         toggled: []
       }
     },
@@ -34,7 +35,7 @@ function Tree (react) {
     render: function () {
       return hx`
         <div class='tree-view'>
-          ${this.renderDirectory(this.props.root)}
+          ${this.renderDirectory(this.state.root)}
         </div>
       `
     },
