@@ -49,9 +49,10 @@ function Tree (react) {
         <ul>
           <li key=${root.path} class=${className} onClick=${this.toggle(root)}>
             <div class='list-item'>
-              <span><a>${root.path}</a></span>
+              <span data-id=${root.id}><a>${root.path}</a></span>
               ${root.html ? hx`<span dangerouslySetInnerHTML=${({__html: root.html})} />` : ''}
             </div>
+
             ${open || toggled ? root.entries.map(this.renderDirectory) : ''}
           </li>
         </ul>
