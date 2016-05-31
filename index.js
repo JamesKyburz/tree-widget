@@ -4,6 +4,7 @@ var fs = require('fs')
 var path = require('path')
 
 module.exports = create
+create.items = items
 
 function create (react) { return new Tree(react) }
 
