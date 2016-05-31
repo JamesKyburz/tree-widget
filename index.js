@@ -15,6 +15,7 @@ function Tree (react) {
       return {
         selected: this.props.selected || [],
         open: this.props.open || [],
+        openAll: false,
         toggled: []
       }
     },
@@ -41,7 +42,7 @@ function Tree (react) {
       var toggled = this.state.toggled.indexOf(root) !== -1
       var open = (root.open && !toggled) ||
         this.state.open.indexOf(root) !== -1 ||
-        this.state.open[0] === '*'
+        this.state.openAll
       var className = 'entry'
       className += root.entries.length ? ' directory' : ' file'
       className += this.state.selected.indexOf(root) === -1 ? '' : ' selected'
