@@ -26,7 +26,7 @@
     "brfs": "1.4.3",
     "hyperx": "2.0.4",
     "hyperxify": "2.0.1",
-    "insert-css": "0.2.0"
+    "insert-css": "1.0.0"
   },
   "devDependencies": {
     "standard": "7.1.2"
