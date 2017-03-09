@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "brfs": "1.4.3",
-    "hyperx": "2.0.5",
+    "hyperx": "2.2.0",
     "hyperxify": "2.0.1",
     "insert-css": "2.0.0"
   },
