@@ -1,5 +1,7 @@
 # tree-widget
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/JamesKyburz/tree-widget.svg)](https://greenkeeper.io/)
+
 A simple react tree widget inspired by [tree-view] where the css is copied from!
 
 # usage
